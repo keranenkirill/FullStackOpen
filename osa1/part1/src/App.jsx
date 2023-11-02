@@ -30,17 +30,14 @@ const Header = (props) =>{
   )
 }
 
-const Content = (props) =>{
-  console.log(props)
+const Content = (props) => {
   return (
     <div>
-      <p>
-      {props.part1} {props.exercises1}
-      {props.part2} {props.exercises2}
-      {props.part3} {props.exercises3}
-      </p>
+      <Part part={props.part1} exercises={props.exercises1} />
+      <Part part={props.part2} exercises={props.exercises2} />
+      <Part part={props.part3} exercises={props.exercises3} />
     </div>
-  )
+  );
 }
 
 const Total = (props) =>{
@@ -52,5 +49,13 @@ const Total = (props) =>{
       </p>
     </div>
   )
+}
+
+const Part = (props) => {
+  return (
+    <p>
+      {props.part} {props.exercises}
+    </p>
+  );
 }
 export default App
