@@ -12,6 +12,9 @@ const App = () => {
     name: 'State of a component',
     exercises: 14
   }
+const total ={
+    total_exercises: part1.exercises + part2.exercises + part3.exercises
+  } 
 
 
   return (
@@ -20,11 +23,16 @@ const App = () => {
       <Content part1={part1.name} exercises1={part1.exercises}/>
       <Content part2={part2.name} exercises2={part2.exercises}/>
       <Content part3={part3.name} exercises3={part3.exercises}/>
+<Total total={total.total_exercises}/>
     </div>
   )
 }
 
+
+
 const Header = (props) =>{
+//Protip: voit kohdata ohjelmoidessasi ongelmia sen suhteen missä muodossa komponentin saamat propsit ovat.
+  // Hyvä keino varmistua asiasta on tulostaa propsit konsoliin
   console.log(props)
   return (
     <div>
@@ -43,6 +51,17 @@ const Content = (props) => {
       <Part part={props.part3} exercises={props.exercises3} />
     </div>
   );
+}
+
+const Total = (props) =>{
+  console.log(props)
+  return (
+    <div>
+      <p>
+       Total count of exercises: {props.total}
+      </p>
+    </div>
+  )
 }
 
 const Part = (props) => {
