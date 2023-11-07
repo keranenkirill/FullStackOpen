@@ -28,6 +28,7 @@ const App = () => {
   const [neutral_val, setNeutralValue] = useState(0);
   const [bad_val, setBadValue] = useState(0);
   const g_feedback = "GIVE FEEDBACK";
+  const all_votes = bad_val+neutral_val+good_val
   const stats = "STATISTICS";
 
   const setToValue = (value, setter) => {
@@ -46,6 +47,10 @@ const App = () => {
       <Display value={`good: ${good_val}`} />
       <Display value={`neutral: ${neutral_val}`} />
       <Display value={`bad: ${bad_val}`} />
+      <Display value={`all: ${all_votes}`} />
+      <Display value={`average: ${(good_val-bad_val)/all_votes}`} />
+
+
     </div>
   );
 };
