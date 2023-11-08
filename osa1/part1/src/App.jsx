@@ -2,57 +2,45 @@ import React, { useState } from 'react'
 import ReactDom from 'react-dom'
 
 
-const Display = (props) => (
-  <div>
-    <span style={{ fontWeight: 'bold' }}>{props.value}</span>
-  </div>
-);
-
 const Button = (props) => (
-  <button
-  onClick={props.handleClick}
-  style={{
-    backgroundColor: 'white',
-    color: 'black',
-    borderRadius: '6px', // Adjust the radius as needed
-    padding: '1px 5px', // Adjust padding as needed
-    cursor: 'pointer',
-    }}
-    >
-    {props.text}
+  <button onClick={props.handleClick}>
+     {props.text}
   </button>
 );
+
+const Statistics = (props) => {
+  console.log(props)
+  return (
+    <div>
+      <p>{props.stats}</p>
+      <p>good  {props.good_val}</p>
+      <p>neutral  {props.neutral_val}</p>
+      <p>bad  {props.bad_val}</p>
+      <p>all  {props.all_votes}</p>
+      <p>average  {props.average || 0}</p>
+      <p>positive  {props.pos_pers || 0} %</p>
+    </div>
+  )
+}
 
 const App = () => {
   const [good_val, setGoodValue] = useState(0);
   const [neutral_val, setNeutralValue] = useState(0);
   const [bad_val, setBadValue] = useState(0);
-  const g_feedback = "GIVE FEEDBACK";
-  const all_votes = bad_val+neutral_val+good_val
-  const stats = "STATISTICS";
-
-  const setToValue = (value, setter) => {
-    console.log('value now', value);
-    setter(value);
-  };
+  let all_votes = bad_val+neutral_val+good_val
+  let average = (good_val-bad_val)/all_votes
+  let positive_persentage = (good_val/all_votes)*100
 
   return (
     <div>
-      <Display value={g_feedback} />
-      <Button handleClick={() => setToValue(good_val + 1, setGoodValue)} text="good" />
-      <Button handleClick={() => setToValue(neutral_val + 1, setNeutralValue)} text="neutral" />
-      <Button handleClick={() => setToValue(bad_val + 1, setBadValue)} text="bad" />
-      <p></p>
-      <Display value={stats} />
-      <Display value={`good: ${good_val}`} />
-      <Display value={`neutral: ${neutral_val}`} />
-      <Display value={`bad: ${bad_val}`} />
-      <Display value={`all: ${all_votes}`} />
-      <Display value={`average: ${(good_val-bad_val)/all_votes}`} />
-
-
+      <h1>Give feedback</h1>
+      <Button handleClick={() => setGoodValue(good_val + 1)}  text="good" />
+      <Button handleClick={() => setNeutralValue(neutral_val + 1)} text="neutral" />
+      <Button handleClick={() => setBadValue(bad_val + 1)} text="bad" />
+      
+      <h1>Statistics {good_val}</h1>
+      <Statistics  good_val={good_val} neutral_val={neutral_val} bad_val={bad_val}  all_votes={all_votes} average={average} pos_pers={positive_persentage}/>
     </div>
   );
 };
-
 export default App
