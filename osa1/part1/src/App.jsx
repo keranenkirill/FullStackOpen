@@ -1,24 +1,29 @@
 import React, { useState } from 'react'
 import ReactDom from 'react-dom'
 
-
 const Button = (props) => (
   <button onClick={props.handleClick}>
      {props.text}
   </button>
 );
+const StatisticsLine = (props) =>{
+  return(
+    <div>
+      <p>{props.text} {props.val}</p>
+    </div>
+  )
+}
 
 const Statistics = (props) => {
   console.log(props)
   return (
     <div>
-      <p>{props.stats}</p>
-      <p>good  {props.good_val}</p>
-      <p>neutral  {props.neutral_val}</p>
-      <p>bad  {props.bad_val}</p>
-      <p>all  {props.all_votes}</p>
-      <p>average  {props.average || 0}</p>
-      <p>positive  {props.pos_pers || 0} %</p>
+      <StatisticsLine text="good"  val={props.good_val}/>
+      <StatisticsLine text="neutral" val={props.neutral_val}/>
+      <StatisticsLine text="bad" val={props.bad_val}/>
+      <StatisticsLine text="all" val={props.all_votes}/>
+      <StatisticsLine text="average" val={props.average || 0}/>
+      <StatisticsLine text="average" val={props.pos_pers + " %" || 0}/>
     </div>
   )
 }
@@ -39,7 +44,12 @@ const App = () => {
       <Button handleClick={() => setBadValue(bad_val + 1)} text="bad" />
       
       <h1>Statistics {good_val}</h1>
-      <Statistics  good_val={good_val} neutral_val={neutral_val} bad_val={bad_val}  all_votes={all_votes} average={average} pos_pers={positive_persentage}/>
+    
+      { all_votes===0 ? 
+      (<h4> No feedback given </h4> ) 
+      : 
+      (<Statistics  good_val={good_val} neutral_val={neutral_val} bad_val={bad_val}  all_votes={all_votes} average={average} pos_pers={positive_persentage} />)
+      }
     </div>
   );
 };
