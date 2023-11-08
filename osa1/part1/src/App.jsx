@@ -6,24 +6,32 @@ const Button = (props) => (
      {props.text}
   </button>
 );
+
 const StatisticsLine = (props) =>{
   return(
-    <div>
-      <p>{props.text} {props.val}</p>
-    </div>
+  <tr>
+    <td>{props.text}</td>
+    <td>{props.val}</td>
+  </tr>
+
   )
 }
 
 const Statistics = (props) => {
-  console.log(props)
+  console.log(props) 
   return (
     <div>
-      <StatisticsLine text="good"  val={props.good_val}/>
-      <StatisticsLine text="neutral" val={props.neutral_val}/>
-      <StatisticsLine text="bad" val={props.bad_val}/>
-      <StatisticsLine text="all" val={props.all_votes}/>
-      <StatisticsLine text="average" val={props.average || 0}/>
-      <StatisticsLine text="average" val={props.pos_pers + " %" || 0}/>
+      <table>
+      <tbody>
+        <StatisticsLine text="good"  val={props.good_val}/>
+        <StatisticsLine text="neutral" val={props.neutral_val}/>
+        <StatisticsLine text="bad" val={props.bad_val}/>
+        <StatisticsLine text="all" val={props.all_votes}/>
+        <StatisticsLine text="average" val={props.average || 0}/>
+        <StatisticsLine text="positive" val={props.pos_pers + " %" || 0}/>
+      </tbody>
+    </table>
+      
     </div>
   )
 }
