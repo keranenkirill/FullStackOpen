@@ -73,18 +73,16 @@ const App = () => {
       <Button handleClick={() => setBadValue(bad_val + 1)} text="bad" />
       <p></p>
       <Button handleClick={() => setAnecdoteLine(anecdotes + 1)} text="generate anecdote" />
-      
-      {anecdotes >0 ?
-        (<DisplayText anecdoteline ={anecdote_lines[Math.floor(Math.random() * anecdote_lines.length)]}/>)
-        :
-        (<p></p>)
-      }
 
-      <h1>Statistics {good_val}</h1>
+      <DisplayText anecdoteline ={anecdote_lines[Math.floor(Math.random() * anecdote_lines.length)]}/>
+  
+
+
+      <h1>Statistics</h1>
       { all_votes===0 ? 
-      (<h4> No feedback given </h4> ) 
-      : 
-      (<Statistics  good_val={good_val} neutral_val={neutral_val} bad_val={bad_val}  all_votes={all_votes} average={average} pos_pers={positive_persentage} />)
+        (<h4> No feedback given </h4> ) 
+        : 
+        (<Statistics  good_val={good_val} neutral_val={neutral_val} bad_val={bad_val}  all_votes={all_votes} average={average} pos_pers={positive_persentage} />)
       }
     </div>
   );
