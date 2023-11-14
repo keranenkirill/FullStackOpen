@@ -2,16 +2,12 @@ import React, { useState } from 'react'
 import ReactDom from 'react-dom'
 
 const Button = (props) => (
-  <button onClick={props.handleClick}>
-     {props.text}
-  </button>
+  <button onClick={props.handleClick}>{props.text}</button>
 );
 
 const DisplayText = (props) =>{
   return(
-    <p>
-      {props.anecdoteline}
-    </p>
+    <p>{props.anecdoteline}</p>
   )
 }
 
@@ -21,7 +17,6 @@ const StatisticsLine = (props) =>{
     <td>{props.text}</td>
     <td>{props.val}</td>
   </tr>
-
   )
 }
 
@@ -52,7 +47,6 @@ const App = () => {
   let average = (good_val-bad_val)/all_votes
   let positive_persentage = (good_val/all_votes)*100  
   const [anecdotes, setAnecdoteLine] = useState(0)
-  
   let anecdote_lines= [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -71,13 +65,11 @@ const App = () => {
       <Button handleClick={() => setGoodValue(good_val + 1)}  text="good" />
       <Button handleClick={() => setNeutralValue(neutral_val + 1)} text="neutral" />
       <Button handleClick={() => setBadValue(bad_val + 1)} text="bad" />
+      
       <p></p>
-      <Button handleClick={() => setAnecdoteLine(anecdotes + 1)} text="generate anecdote" />
-
-      <DisplayText anecdoteline ={anecdote_lines[Math.floor(Math.random() * anecdote_lines.length)]}/>
+      <Button handleClick={() => setAnecdoteLine(Math.floor((Math.random() * anecdote_lines.length)))} text="generate anecdote" />
+      <DisplayText anecdoteline = {anecdote_lines[anecdotes]}/>
   
-
-
       <h1>Statistics</h1>
       { all_votes===0 ? 
         (<h4> No feedback given </h4> ) 
