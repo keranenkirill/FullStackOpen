@@ -3,8 +3,17 @@ import ReactDom from 'react-dom'
 
 
 const Button = (props) => (
-  <button onClick={props.handleClick}>
-     {props.text}
+  <button 
+    onClick={props.handleClick}
+    style={{
+      backgroundColor: 'white',
+      color: 'black',
+      borderRadius: '6px', 
+      padding: '1px 5px', 
+      cursor: 'pointer',
+      }}
+      >
+      {props.text}
   </button>
 );
 
