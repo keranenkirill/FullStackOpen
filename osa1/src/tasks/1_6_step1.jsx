@@ -14,8 +14,8 @@ const Button = (props) => (
   style={{
     backgroundColor: 'white',
     color: 'black',
-    borderRadius: '6px', // Adjust the radius as needed
-    padding: '1px 5px', // Adjust padding as needed
+    borderRadius: '6px', 
+    padding: '1px 5px', 
     cursor: 'pointer',
     }}
     >
