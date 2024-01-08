@@ -14,8 +14,8 @@ const Button = (props) => (
   style={{
     backgroundColor: 'white',
     color: 'black',
-    borderRadius: '6px', // Adjust the radius as needed
-    padding: '1px 5px', // Adjust padding as needed
+    borderRadius: '6px', 
+    padding: '1px 5px', 
     cursor: 'pointer',
     }}
     >
@@ -49,8 +49,7 @@ const App = () => {
       <Display value={`bad: ${bad_val}`} />
       <Display value={`all: ${all_votes}`} />
       <Display value={`average: ${(good_val-bad_val)/all_votes}`} />
-
-
+      <Display value={`positive: ${(good_val/all_votes)*100} %`} />
     </div>
   );
 };
