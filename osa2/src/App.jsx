@@ -1,7 +1,7 @@
-import course from "./tasks/2_1_kurssitiedot_step6/src/Course";
-import Header from "./tasks/2_1_kurssitiedot_step6/src/Header";
-import Content from "./tasks/2_1_kurssitiedot_step6/src/Content";
-import Total from "./tasks/2_1_kurssitiedot_step6/src/Total";
+import course from "./tasks/2_2_kurssitiedot_step7/src/Course";
+import Header from "./tasks/2_2_kurssitiedot_step7/src/Header";
+import Content from "./tasks/2_2_kurssitiedot_step7/src/Content";
+import Total from "./tasks/2_2_kurssitiedot_step7/src/Total";
 
 const App = () => {
   const totalExercises = course.parts.reduce(
