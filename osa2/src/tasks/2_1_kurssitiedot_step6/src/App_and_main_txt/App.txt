@@ -1,4 +1,4 @@
-// Kopioi alla oleva koodi App.js tiedostoon
+// Kopioi alla oleva koodi osa2/src/App.jsx tiedostoon, jotta voit ajaa ohjelman
 
 import course from "./tasks/2_1_kurssitiedot_step6/src/Course";
 import Header from "./tasks/2_1_kurssitiedot_step6/src/Header";
