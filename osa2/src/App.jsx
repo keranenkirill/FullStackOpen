@@ -1,30 +1,23 @@
-import course from "./tasks/2_3_kurssitiedot_step8/src/Course";
-import Header from "./tasks/2_3_kurssitiedot_step8/src/Header";
-import Content from "./tasks/2_3_kurssitiedot_step8/src/Content";
-import Total from "./tasks/2_3_kurssitiedot_step8/src/Total";
+import CoursesData from "./tasks/2_4_kurssitiedot_step9/src/components/CoursesData";
+import ShowCourse from "./tasks/2_4_kurssitiedot_step9/src/components/Course"
 
 const App = () => {
-  const totalExercises = course.parts.reduce(
-    (sum, part) => sum + part.exercises,
-    0
-  );
   return (
     <div>
-      <Header course={course} />
-      <Content
-        part1={course.parts[0].name}
-        exercises1={course.parts[0].exercises}
-      />
-      <Content
-        part2={course.parts[1].name}
-        exercises2={course.parts[1].exercises}
-      />
-      <Content
-        part3={course.parts[2].name}
-        exercises3={course.parts[2].exercises}
-      />
-      <Total total={totalExercises} />
+      <h1> Web development curriculum </h1>
+      {CoursesData.map(course =>
+        <ShowCourse key={course.id} course={course}/> //course palauttaa päälistan koko datasta
+      )} 
     </div>
-  );
-};
+  )
+}
+const course_id = CoursesData.map(course => course.id)
+console.log('Course id',course_id)
+
+const course_name = CoursesData.map(course=>course.name)
+console.log('Course name',course_name)
+
+const course_parts = CoursesData.map(course=>course.parts)
+console.log('Course parts',course_parts)
+
 export default App;
