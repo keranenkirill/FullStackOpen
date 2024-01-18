@@ -24,7 +24,6 @@ const Course= ({course})=> {
    console.log('name',course["name"])
    console.log('id', course["id"])
    console.log('parts',course["parts"])
-
    return(
       <div>
          <Header course={course["name"] /*päälistan sanakirjan name */} />  
@@ -32,6 +31,5 @@ const Course= ({course})=> {
          <Total parts={course["parts"] /*päälistan sanakirjassa olevan parts listan sisältämä data */} /> 
       </div>
    )
-
 }  
 export default Course
