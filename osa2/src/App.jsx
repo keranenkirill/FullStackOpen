@@ -1,23 +1,42 @@
-import CoursesData from "./tasks/2_4_kurssitiedot_step9/src/components/CoursesData";
-import ShowCourse from "./tasks/2_4_kurssitiedot_step9/src/components/Course"
+import { useState } from "react";
 
 const App = () => {
+  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
+
+  const [newName, setNewName] = useState("add new person...");
+
+  const addPerson = (event) => {
+    event.preventDefault();
+    const personObject = {
+      name: newName,
+    };
+    setPersons(persons.concat(personObject));
+    setNewName("add new person...");
+    console.log("updated phonebook", persons); //näyttää yhden lisäyksen jäljessä kun uusi lisätty
+  };
+
+  const handleNoteChange = (event) => {
+    //Jotta kontrolloidun syötekomponentin editoiminen olisi mahdollista, täytyy sille rekisteröidä tapahtumankäsittelijä, joka synkronoi syötekenttään tehdyt muutokset komponentin App tilaan
+    console.log(event.target.value);
+    setNewName(event.target.value);
+  };
+
   return (
     <div>
-      <h1> Web development curriculum </h1>
-      {CoursesData.map(course =>
-        <ShowCourse key={course.id} course={course}/> //course palauttaa päälistan koko datasta
-      )} 
+      <h2>Phonebook</h2>
+      <form onSubmit={addPerson}>
+        <input value={newName} onChange={handleNoteChange} />
+        <button type="submit">add</button>
+      </form>
+
+      <h2>Numbers</h2>
+      <ul>
+        {persons.map((person) => (
+          <li key={person.name}>{person.name}</li>
+        ))}
+      </ul>
     </div>
-  )
-}
-const course_id = CoursesData.map(course => course.id)
-console.log('Course id',course_id)
-
-const course_name = CoursesData.map(course=>course.name)
-console.log('Course name',course_name)
-
-const course_parts = CoursesData.map(course=>course.parts)
-console.log('Course parts',course_parts)
+  );
+};
 
 export default App;
