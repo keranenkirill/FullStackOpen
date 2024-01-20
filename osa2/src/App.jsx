@@ -1,44 +1,66 @@
 import { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
+  const [persons, setPersons] = useState([
+    { name: "Arto Hellas", number: +358451418899 },
+  ]);
   const [newName, setNewName] = useState("add new person...");
+  const [newPhoneNumber, setNewPhoneNum] = useState(
+    "add phonenumber in +358.. format"
+  );
 
   const addPerson = (event) => {
     event.preventDefault();
     //Jos lisättävä nimi on jo sovelluksen tiedossa, estä lisäys
     const nameExists = persons.some((person) => person.name === newName);
 
-    if (nameExists) {
-      alert(`${newName} is already in the phonebook.`);//template string
+    if (nameExists) { //template string, tarkistetaan, onko jo sama nimi olemassa
+      alert(`${newName} is already in the phonebook.`); 
+    } else if (newName === "add new person..." || newPhoneNumber === "add phonenumber in +358.. format") {  //template string, tarkistetaan yritetäänkö lisätä alustus tekstit 
+      alert(`this is not valid, add name and number`);
     } else {
       const personObject = {
         name: newName,
+        number: newPhoneNumber
       };
       setPersons(persons.concat(personObject));
-      setNewName("add new person...");
-      console.log("updated phonebook", persons); //tulostaa toistaiseksi yhden nimen jäljessä...
+      setNewName("add new person...")
+      setNewPhoneNum("add phonenumber in +358.. format")
+      console.log("updated phonebook", persons);
     }
   };
 
-  const handleNoteChange = (event) => {
+  const handleNameChange = (event) => {
     //Jotta kontrolloidun syötekomponentin editoiminen olisi mahdollista, täytyy sille rekisteröidä tapahtumankäsittelijä, joka synkronoi syötekenttään tehdyt muutokset komponentin App tilaan
-    console.log(event.target.value);
+    //console.log(event.target.value);
+    //tapahtumakäsittelijä input formille nimen kirjoittamisessa
     setNewName(event.target.value);
+  };
+
+  const handleNumberChange = (event) => {
+    //Jotta kontrolloidun syötekomponentin editoiminen olisi mahdollista, täytyy sille rekisteröidä tapahtumankäsittelijä, joka synkronoi syötekenttään tehdyt muutokset komponentin App tilaan
+    //console.log(event.target.value);
+    //tapahtumakäsittelijä input formille numeron kirjoittamisessa
+    setNewPhoneNum(event.target.value);
   };
 
   return (
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
-        <input value={newName} onChange={handleNoteChange} />
+        <input value={newName} onChange={handleNameChange} />
+        <p></p>
+        <input value={newPhoneNumber} onChange={handleNumberChange} />
+        <p></p>
         <button type="submit">add</button>
       </form>
 
-      <h2>Numbers</h2>
+      <h3>Numbers</h3>
       <ul>
         {persons.map((person) => (
-          <li key={person.name}>{person.name}</li>
+          <li key={person.name}>
+            {person.name} : {person.number}
+          </li>
         ))}
       </ul>
     </div>
