@@ -2,17 +2,23 @@ import { useState } from "react";
 
 const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
-
   const [newName, setNewName] = useState("add new person...");
 
   const addPerson = (event) => {
     event.preventDefault();
-    const personObject = {
-      name: newName,
-    };
-    setPersons(persons.concat(personObject));
-    setNewName("add new person...");
-    console.log("updated phonebook", persons); //näyttää yhden lisäyksen jäljessä kun uusi lisätty
+    //Jos lisättävä nimi on jo sovelluksen tiedossa, estä lisäys
+    const nameExists = persons.some((person) => person.name === newName);
+
+    if (nameExists) {
+      alert(`${newName} is already in the phonebook.`);//template string
+    } else {
+      const personObject = {
+        name: newName,
+      };
+      setPersons(persons.concat(personObject));
+      setNewName("add new person...");
+      console.log("updated phonebook", persons); //tulostaa toistaiseksi yhden nimen jäljessä...
+    }
   };
 
   const handleNoteChange = (event) => {
