@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import noteService from "./services/numbers";
+import phonebookService from "./services/numbers";
 
 const Display = ({ persons }) => {
   return (
@@ -47,7 +47,7 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    noteService.getAll()
+    phonebookService.getAll()
     .then(initialNotes=> {
       console.log("promise fulfilled");
       console.log(initialNotes);
@@ -76,7 +76,7 @@ const App = () => {
         number: newPhoneNumber,
       };
 
-      noteService
+      phonebookService
       .create(personObject)
       .then(returnedNote => {
         setPersons(persons.concat(returnedNote))

@@ -1,6 +1,6 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3001/persons'
-
+//toiminallisuus, joka vastaa palvelimen kanssa kommunikoinnista
 const getAll = () => {
   const request = axios.get(baseUrl)
    console.log("numbers.js: getAll",request)
@@ -13,8 +13,5 @@ const create = newObject => {
 }
 
 export default { getAll, create}
-
-
-//Moduuli palauttaa nyt olion, jonka kenttinä (getAll, create ja update) 
-//on kolme muistiinpanojen käsittelyä hoitavaa funktiota. 
+//Moduuli palauttaa nyt olion, jonka kenttinä (getAll, create) 
 //Funktiot palauttavat suoraan Axiosin metodien palauttaman promisen.
