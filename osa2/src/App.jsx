@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import noteService from "./services/numbers";
 
 const Display = ({ persons }) => {
   return (
@@ -47,13 +47,11 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    console.log("effect");
-    axios
-    .get("http://localhost:3001/persons")
-    .then((response) => {
+    noteService.getAll()
+    .then(initialNotes=> {
       console.log("promise fulfilled");
-      console.log(response.data);
-      setPersons(response.data);
+      console.log(initialNotes);
+      setPersons(initialNotes);
     });
   }, []);
   console.log("render", persons.length, "persons");
@@ -77,10 +75,15 @@ const App = () => {
         name: newName,
         number: newPhoneNumber,
       };
-      setPersons(persons.concat(personObject));
-      setNewName("add new person...");
+
+      noteService
+      .create(personObject)
+      .then(returnedNote => {
+        setPersons(persons.concat(returnedNote))
+        setNewName("add new person...");
       setNewPhoneNum("add phonenumber...");
       console.log("updated phonebook", persons);
+      })      
     }
   };
 
