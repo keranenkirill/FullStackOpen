@@ -1,44 +1,8 @@
 import { useState, useEffect } from "react";
 import phonebookService from "./services/numbers";
-
-const Display = ({ persons }) => {
-  return (
-    <ul>
-      {persons.map((person) => (
-        <li key={person.name}>
-          {person.name} : {person.number}
-        </li>
-      ))}
-    </ul>
-  );
-};
-
-const Search = ({ handleSearchChange }) => {
-  return (
-    <div>
-      <label>Filter by Name:</label>
-      <input type="text" onChange={handleSearchChange} />
-    </div>
-  );
-};
-
-const Form = ({
-  newName,
-  newPhoneNumber,
-  handleNameChange,
-  handleNumberChange,
-  addPerson,
-}) => {
-  return (
-    <form onSubmit={addPerson}>
-      <input value={newName} onChange={handleNameChange} />
-      <p></p>
-      <input value={newPhoneNumber} onChange={handleNumberChange} />
-      <p></p>
-      <button type="submit">add</button>
-    </form>
-  );
-};
+import Display from "./tasks/2_14_puhelinluettelo_step9/components/Display";
+import Search from "./tasks/2_14_puhelinluettelo_step9/components/Search";
+import Form from "./tasks/2_14_puhelinluettelo_step9/components/Form";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -47,8 +11,7 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    phonebookService.getAll()
-    .then(initialNotes=> {
+    phonebookService.getAll().then((initialNotes) => {
       console.log("promise fulfilled");
       console.log(initialNotes);
       setPersons(initialNotes);
@@ -76,14 +39,22 @@ const App = () => {
         number: newPhoneNumber,
       };
 
-      phonebookService
-      .create(personObject)
-      .then(returnedNote => {
-        setPersons(persons.concat(returnedNote))
+      phonebookService.create(personObject).then((returnedNote) => {
+        setPersons(persons.concat(returnedNote));
         setNewName("add new person...");
-      setNewPhoneNum("add phonenumber...");
-      console.log("updated phonebook", persons);
-      })      
+        setNewPhoneNum("add phonenumber...");
+        console.log("updated phonebook", persons);
+      });
+    }
+  };
+
+  const deletePerson = (id, name) => {
+    console.log("deletePerson: deleting", id, name);
+    const confirmDelete = window.confirm(`Delete ${name}?`);
+    if (confirmDelete) {
+      phonebookService.remove(id).then(() => {
+        setPersons(persons.filter((person) => person.id !== id));
+      });
     }
   };
 
@@ -119,9 +90,11 @@ const App = () => {
         addPerson={addPerson}
       />
       <h3>Numbers</h3>
-      <Display persons={filteredPersons} />
+      <Display
+        persons={filteredPersons}
+        clickDelete={(id, name) => deletePerson(id, name)}
+      />
     </div>
   );
 };
-
 export default App;
