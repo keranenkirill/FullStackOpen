@@ -19,14 +19,46 @@ const App = () => {
   }, []);
   console.log("render", persons.length, "persons");
 
+  const resetInputFields = () => {
+    setNewName("add new person...");
+    setNewPhoneNum("add phonenumber...");
+  };
+
+  const updatePersonNumber = () => {
+    const personToUpdate = persons.find((person) => person.name === newName);
+    if (personToUpdate) {
+      console.log("updatePersonNumber...")
+      const updatedPerson = { ...personToUpdate, number: newPhoneNumber };
+      phonebookService
+        .update(personToUpdate.id, updatedPerson)
+        .then((updatedNote) => {
+          setPersons(
+            persons.map((person) =>
+              person.id !== personToUpdate.id ? person : updatedNote
+            )
+          );
+          resetInputFields();
+          console.log("Phone number updated for", updatedNote.name);
+        })
+        .catch((error) => {
+          console.log("Error updating phone number:", error);
+        });
+    }
+  };
+
   const addPerson = (event) => {
     event.preventDefault();
-    //Jos lisättävä nimi on jo sovelluksen tiedossa, estä lisäys
+    //Jos lisättävä nimi on jo sovelluksen tiedossa...
     const nameExists = persons.some((person) => person.name === newName);
-
     if (nameExists) {
-      //template string, tarkistetaan, onko jo sama nimi olemassa
-      alert(`${newName} is already in the phonebook.`);
+      //template string, tarkistetaan, onko jo sama nimi olemassa ja kysytään,
+      //haluaako käyttäjä päivittää olemassa olevan nimen puhelinnumeron...
+      const confirmUpdate = window.confirm(
+        `${newName} is already added to phonebook, replace old number with new one?`
+      );
+      if (confirmUpdate) {
+        updatePersonNumber();
+      }
     } else if (
       newName === "add new person..." ||
       newPhoneNumber === "add phonenumber..."
@@ -38,11 +70,9 @@ const App = () => {
         name: newName,
         number: newPhoneNumber,
       };
-
       phonebookService.create(personObject).then((returnedNote) => {
         setPersons(persons.concat(returnedNote));
-        setNewName("add new person...");
-        setNewPhoneNum("add phonenumber...");
+        resetInputFields();
         console.log("updated phonebook", persons);
       });
     }
@@ -61,6 +91,7 @@ const App = () => {
   const filteredPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
   //Jotta kontrolloidun syötekomponentin editoiminen olisi mahdollista, täytyy sille rekisteröidä tapahtumankäsittelijä, joka synkronoi syötekenttään tehdyt muutokset komponentin App tilaan
   const handleNameChange = (event) => {
     //tapahtumakäsittelijä input formille nimen kirjoittamisessa
