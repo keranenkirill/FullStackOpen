@@ -3,12 +3,16 @@ import phonebookService from "./services/numbers";
 import Display from "./tasks/2_14_puhelinluettelo_step9/components/Display";
 import Search from "./tasks/2_14_puhelinluettelo_step9/components/Search";
 import Form from "./tasks/2_14_puhelinluettelo_step9/components/Form";
+import NotificationMessage from "./tasks/2_14_puhelinluettelo_step9/components/NotificationMessage";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("add new person...");
   const [newPhoneNumber, setNewPhoneNum] = useState("add phonenumber...");
   const [searchTerm, setSearchTerm] = useState("");
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notifclass, setnotifclass] = useState("")
+
 
   useEffect(() => {
     phonebookService.getAll().then((initialNotes) => {
@@ -19,32 +23,38 @@ const App = () => {
   }, []);
   console.log("render", persons.length, "persons");
 
+
   const resetInputFields = () => {
     setNewName("add new person...");
     setNewPhoneNum("add phonenumber...");
   };
 
+
   const updatePersonNumber = () => {
     const personToUpdate = persons.find((person) => person.name === newName);
     if (personToUpdate) {
-      console.log("updatePersonNumber...")
+      console.log("updatePersonNumber...");
       const updatedPerson = { ...personToUpdate, number: newPhoneNumber };
       phonebookService
         .update(personToUpdate.id, updatedPerson)
         .then((updatedNote) => {
           setPersons(
             persons.map((person) =>
-              person.id !== personToUpdate.id ? person : updatedNote
-            )
-          );
+              person.id !== personToUpdate.id ? person : updatedNote));
           resetInputFields();
+
           console.log("Phone number updated for", updatedNote.name);
+          setnotifclass("goodAlert")
+          setNotificationMessage(
+            `Phone number updated for ${updatedNote.name}`);
+          setTimeOut(2000)
         })
         .catch((error) => {
           console.log("Error updating phone number:", error);
         });
     }
   };
+
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -54,8 +64,7 @@ const App = () => {
       //template string, tarkistetaan, onko jo sama nimi olemassa ja kysytään,
       //haluaako käyttäjä päivittää olemassa olevan nimen puhelinnumeron...
       const confirmUpdate = window.confirm(
-        `${newName} is already added to phonebook, replace old number with new one?`
-      );
+        `${newName} is already added to phonebook, replace old number with new one?`);
       if (confirmUpdate) {
         updatePersonNumber();
       }
@@ -64,7 +73,12 @@ const App = () => {
       newPhoneNumber === "add phonenumber..."
     ) {
       //template string, tarkistetaan yritetäänkö lisätä alustus tekstit
-      alert(`this is not valid, add name and number`);
+      //alert(`this is not valid, add name and number`);
+
+      setnotifclass("errorAlert")
+      setNotificationMessage(
+        `this is not valid, add name and number`);
+      setTimeOut(2000)
     } else {
       const personObject = {
         name: newName,
@@ -73,25 +87,43 @@ const App = () => {
       phonebookService.create(personObject).then((returnedNote) => {
         setPersons(persons.concat(returnedNote));
         resetInputFields();
+
         console.log("updated phonebook", persons);
+        setnotifclass("goodAlert")
+        setNotificationMessage(
+          `${newName}, ${newPhoneNumber} added succesfully to notebook`);
+        setTimeOut(2000)
       });
     }
   };
 
+
   const deletePerson = (id, name) => {
     console.log("deletePerson: deleting", id, name);
-    const confirmDelete = window.confirm(`Delete ${name}?`);
+    const confirmDelete = window.confirm(`Delete ${name}?`)
     if (confirmDelete) {
       phonebookService.remove(id).then(() => {
         setPersons(persons.filter((person) => person.id !== id));
+
+        setnotifclass("goodAlert")
+        setNotificationMessage(
+          `Info for ${name} deleted succesfully`);
+        setTimeOut(2000)
       });
     }
   };
+
+
+  const setTimeOut = (secs) =>{
+    setTimeout(() => {
+      setNotificationMessage("")
+    }, secs)
+  }
+
 
   const filteredPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
   //Jotta kontrolloidun syötekomponentin editoiminen olisi mahdollista, täytyy sille rekisteröidä tapahtumankäsittelijä, joka synkronoi syötekenttään tehdyt muutokset komponentin App tilaan
   const handleNameChange = (event) => {
     //tapahtumakäsittelijä input formille nimen kirjoittamisessa
@@ -106,9 +138,11 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <NotificationMessage message={notificationMessage} notifclass={notifclass}/>
       <h3>Search</h3>
       <Search handleSearchChange={handleSearchChange} />
       <p></p>

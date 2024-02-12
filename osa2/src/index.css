@@ -1,0 +1,11 @@
+notificationMessage {
+  font-style: italic;
+}
+
+.goodAlert {
+  color: green;
+}
+
+.errorAlert {
+  color: red;
+}
