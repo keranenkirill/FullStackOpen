@@ -47,7 +47,7 @@ const App = () => {
           setnotifclass("goodAlert")
           setNotificationMessage(
             `Phone number updated for ${updatedNote.name}`);
-          setTimeOut(2000)
+          setTimeOut(2500)
         })
         .catch((error) => {
           console.log("Error updating phone number:", error);
@@ -78,7 +78,7 @@ const App = () => {
       setnotifclass("errorAlert")
       setNotificationMessage(
         `this is not valid, add name and number`);
-      setTimeOut(2000)
+      setTimeOut(2500)
     } else {
       const personObject = {
         name: newName,
@@ -92,7 +92,7 @@ const App = () => {
         setnotifclass("goodAlert")
         setNotificationMessage(
           `${newName}, ${newPhoneNumber} added succesfully to notebook`);
-        setTimeOut(2000)
+        setTimeOut(2500)
       });
     }
   };
@@ -102,14 +102,23 @@ const App = () => {
     console.log("deletePerson: deleting", id, name);
     const confirmDelete = window.confirm(`Delete ${name}?`)
     if (confirmDelete) {
-      phonebookService.remove(id).then(() => {
+      phonebookService
+      .remove(id)
+      .then(() => {
         setPersons(persons.filter((person) => person.id !== id));
 
         setnotifclass("goodAlert")
         setNotificationMessage(
-          `Info for ${name} deleted succesfully`);
+          `Info of ${name} deleted succesfully`);
         setTimeOut(2000)
-      });
+      })
+      .catch(error => {
+        setnotifclass("errorAlert")
+        setNotificationMessage(`the info of '${name}' was already deleted from server`)
+        setTimeOut(2500)
+        setPersons(persons.filter(person => person.id !== id))
+      }
+      );
     }
   };
 

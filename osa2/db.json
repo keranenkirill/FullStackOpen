@@ -1,19 +1,9 @@
 {
   "persons": [
     {
-      "id": "7be7",
-      "name": "Nakk Soossi",
-      "number": "0456787998"
-    },
-    {
       "id": "0422",
       "name": "Essi Nokko",
       "number": "7845360011"
-    },
-    {
-      "id": "c23c",
-      "name": "Panu",
-      "number": "233333334"
     },
     {
       "id": "5158",
@@ -24,11 +14,6 @@
       "id": "740a",
       "name": "Aarni",
       "number": "11232245"
-    },
-    {
-      "id": "6120",
-      "name": "Nugetti",
-      "number": "78907890"
     }
   ]
 }
