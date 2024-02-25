@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/persons'
+const baseUrl = 'api/persons'
 //toiminallisuus, joka vastaa palvelimen kanssa kommunikoinnista
 const getAll = () => {
   const request = axios.get(baseUrl)
