@@ -11,8 +11,7 @@ const App = () => {
   const [newPhoneNumber, setNewPhoneNum] = useState("add phonenumber...");
   const [searchTerm, setSearchTerm] = useState("");
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notifclass, setnotifclass] = useState("")
-
+  const [notifclass, setnotifclass] = useState("");
 
   useEffect(() => {
     phonebookService.getAll().then((initialNotes) => {
@@ -23,12 +22,10 @@ const App = () => {
   }, []);
   console.log("render", persons.length, "persons");
 
-
   const resetInputFields = () => {
     setNewName("add new person...");
     setNewPhoneNum("add phonenumber...");
   };
-
 
   const updatePersonNumber = () => {
     const personToUpdate = persons.find((person) => person.name === newName);
@@ -40,14 +37,17 @@ const App = () => {
         .then((updatedNote) => {
           setPersons(
             persons.map((person) =>
-              person.id !== personToUpdate.id ? person : updatedNote));
+              person.id !== personToUpdate.id ? person : updatedNote
+            )
+          );
           resetInputFields();
 
           console.log("Phone number updated for", updatedNote.name);
-          setnotifclass("goodAlert")
+          setnotifclass("goodAlert");
           setNotificationMessage(
-            `Phone number updated for ${updatedNote.name}`);
-          setTimeOut(2500)
+            `Phone number updated for ${updatedNote.name}`
+          );
+          setTimeOut(2500);
         })
         .catch((error) => {
           console.log("Error updating phone number:", error);
@@ -55,16 +55,16 @@ const App = () => {
     }
   };
 
-
   const addPerson = (event) => {
     event.preventDefault();
-    //Jos lisättävä nimi on jo sovelluksen tiedossa...
+    // Jos lisättävä nimi on jo sovelluksen tiedossa...
     const nameExists = persons.some((person) => person.name === newName);
     if (nameExists) {
-      //template string, tarkistetaan, onko jo sama nimi olemassa ja kysytään,
-      //haluaako käyttäjä päivittää olemassa olevan nimen puhelinnumeron...
+      // template string, tarkistetaan, onko jo sama nimi olemassa ja kysytään,
+      // haluaako käyttäjä päivittää olemassa olevan nimen puhelinnumeron...
       const confirmUpdate = window.confirm(
-        `${newName} is already added to phonebook, replace old number with new one?`);
+        `${newName} is already added to phonebook, replace old number with new one?`
+      );
       if (confirmUpdate) {
         updatePersonNumber();
       }
@@ -72,63 +72,75 @@ const App = () => {
       newName === "add new person..." ||
       newPhoneNumber === "add phonenumber..."
     ) {
-      //template string, tarkistetaan yritetäänkö lisätä alustus tekstit
-      //alert(`this is not valid, add name and number`);
+      // template string, tarkistetaan yritetäänkö lisätä alustus tekstit
+      // alert(`this is not valid, add name and number`);
 
-      setnotifclass("errorAlert")
-      setNotificationMessage(
-        `this is not valid, add name and number`);
-      setTimeOut(2500)
+      setnotifclass("errorAlert");
+      setNotificationMessage(`This is not valid, add name and number`);
+      setTimeout(() => {
+        setNotificationMessage("");
+      }, 2500);
     } else {
       const personObject = {
         name: newName,
         number: newPhoneNumber,
       };
-      phonebookService.create(personObject).then((returnedNote) => {
-        setPersons(persons.concat(returnedNote));
-        resetInputFields();
+      phonebookService
+        .create(personObject)
+        .then((returnedNote) => {
+          setPersons(persons.concat(returnedNote));
+          resetInputFields();
 
-        console.log("updated phonebook", persons);
-        setnotifclass("goodAlert")
-        setNotificationMessage(
-          `${newName}, ${newPhoneNumber} added succesfully to notebook`);
-        setTimeOut(2500)
-      });
+          console.log("updated phonebook", persons);
+          setnotifclass("goodAlert");
+          setNotificationMessage(
+            `${newName}, ${newPhoneNumber} added succesfully to notebook`
+          );
+          setTimeout(() => {
+            setNotificationMessage("");
+          }, 2500);
+        })
+        .catch((error) => {
+          // Handle errors returned from the server
+          console.log("WWWWWWWWWWWWWWWW", error.response.data);
+          setnotifclass("errorAlert");
+          setNotificationMessage(`Error: ${error.response.data}`);
+          setTimeout(() => {
+            setNotificationMessage("");
+          }, 2500);
+        });
     }
   };
-
 
   const deletePerson = (id, name) => {
     console.log("deletePerson: deleting", id, name);
-    const confirmDelete = window.confirm(`Delete ${name}?`)
+    const confirmDelete = window.confirm(`Delete ${name}?`);
     if (confirmDelete) {
       phonebookService
-      .remove(id)
-      .then(() => {
-        setPersons(persons.filter((person) => person.id !== id));
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter((person) => person.id !== id));
 
-        setnotifclass("goodAlert")
-        setNotificationMessage(
-          `Info of ${name} deleted succesfully`);
-        setTimeOut(2000)
-      })
-      .catch(error => {
-        setnotifclass("errorAlert")
-        setNotificationMessage(`the info of '${name}' was already deleted from server`)
-        setTimeOut(2500)
-        setPersons(persons.filter(person => person.id !== id))
-      }
-      );
+          setnotifclass("goodAlert");
+          setNotificationMessage(`Info of ${name} deleted succesfully`);
+          setTimeOut(2000);
+        })
+        .catch((error) => {
+          setnotifclass("errorAlert");
+          setNotificationMessage(
+            `the info of '${name}' was already deleted from server`
+          );
+          setTimeOut(2500);
+          setPersons(persons.filter((person) => person.id !== id));
+        });
     }
   };
 
-
-  const setTimeOut = (secs) =>{
+  const setTimeOut = (secs) => {
     setTimeout(() => {
-      setNotificationMessage("")
-    }, secs)
-  }
-
+      setNotificationMessage("");
+    }, secs);
+  };
 
   const filteredPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -147,11 +159,13 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <NotificationMessage message={notificationMessage} notifclass={notifclass}/>
+      <NotificationMessage
+        message={notificationMessage}
+        notifclass={notifclass}
+      />
       <h3>Search</h3>
       <Search handleSearchChange={handleSearchChange} />
       <p></p>
