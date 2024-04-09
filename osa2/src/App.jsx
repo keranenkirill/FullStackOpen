@@ -56,11 +56,9 @@ const App = () => {
   };
 
   const addPerson = (event) => {
-    console.log('ollaanko persees')
     event.preventDefault();
     // Jos lisättävä nimi on jo sovelluksen tiedossa...
     const nameExists = persons.find((person) => person.name === newName);
-    console.log('enne iffii')
     if (nameExists) {
       // template string, tarkistetaan, onko jo sama nimi olemassa ja kysytään,
       // haluaako käyttäjä päivittää olemassa olevan nimen puhelinnumeron...
@@ -71,13 +69,11 @@ const App = () => {
         updatePersonNumber();
       }
     }  else {
-      console.log('else lohos')
       const personObject = {
         name: newName,
         number: newPhoneNumber,
       };
       
-      console.log("kutsutaa koht service")
       phonebookService
         .create(personObject)
         .then(returnedNote => {
@@ -87,15 +83,12 @@ const App = () => {
           setNotificationMessage(
             `${newName}, ${newPhoneNumber} added succesfully to notebook`
           );
-          console.log("pizdec")
           setTimeout(() => {
-            setNotificationMessage("LOLLA");
+            setNotificationMessage("goodAlert");
           }, 2500);
-          console.log("thenin lapus")
         })
         .catch((error) => {
           // Handle errors returned from the server
-          console.error("kek")
           console.log(error.response.data.error);
           setnotifclass("errorAlert");
           setNotificationMessage(`Error: ${error.response.data.error}`);
