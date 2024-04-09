@@ -112,7 +112,7 @@ const App = () => {
           setNotificationMessage(`Info of ${name} deleted succesfully`);
           setTimeOut(2000);
         })
-        .catch((error) => {
+        .catch(() => {
           setnotifclass("errorAlert");
           setNotificationMessage(
             `the info of '${name}' was already deleted from server`
