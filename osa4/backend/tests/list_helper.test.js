@@ -1,8 +1,11 @@
 const { test, describe } = require("node:test")
 const assert = require("node:assert")
 const listHelper = require("../utils/list_helper")
-const { listWithZeroBlogs, listWithOneBlog, listWithMultipleBlogs } = require("./blogLists_testData")
-
+const {
+  listWithZeroBlogs,
+  listWithOneBlog,
+  listWithMultipleBlogs,
+} = require("./blogLists_testData")
 
 test("dummy returns one", () => {
   const blogs = []
@@ -12,7 +15,6 @@ test("dummy returns one", () => {
 })
 
 describe("total likes", () => {
-  
   test("of empty list is zero", () => {
     const result = listHelper.totalLikes(listWithZeroBlogs)
     assert.strictEqual(result, 0)
