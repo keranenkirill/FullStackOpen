@@ -77,16 +77,17 @@ test("a blog without likes added, default 0 if not given likes ", async () => {
    assert(title.includes("BLOG_emptylikes", "0"))
 })
 
-test("blog without title not added", async () => {
+//4.12*: blogilistan testit, step5
+test("blog without title not added, correct response status(400)", async () => {
   const newBlog = {
     author: "AUTH4",
     url: "TestURL4",
     likes: "456",
   }
-  await api.post("/api/blogs").send(newBlog).expect(400)
+  await api.post("/api/blogs").send(newBlog).expect(400) // tässä nähtävästi errorstatus 400 ok, testattu sijoittamalla 200 ja antaa virheen
   const response = await api.get("/api/blogs")
   //4.9: blogilistan testit, step2: tulostuu id kuten tehtävässä on haluttu. (eli ei _id)
-  //console.log(response) 
+  //console.log(response) //täällä kuitenki voidaan havaita että statusCode ja status ovat 200, miksi?
   assert.strictEqual(response.body.length, helper.initialBlogs.length)
 })
 
