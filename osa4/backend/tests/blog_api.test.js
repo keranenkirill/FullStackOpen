@@ -40,6 +40,7 @@ test.only('the second blog is "BLOG2", auth is "AUTH2"', async () => {
   assert(title.includes("BLOG2", "AUTH2"))
 })
 
+//4.10: blogilistan testit, step3: sovellukseen voi lisätä blogeja, määrä kasvaa yhdellä
 test("a valid blog added ", async () => {
   const newBlog = {
     title: "BLOG3",
