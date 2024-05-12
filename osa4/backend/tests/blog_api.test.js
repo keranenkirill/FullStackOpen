@@ -67,7 +67,8 @@ test("blog without title not added", async () => {
   }
   await api.post("/api/blogs").send(newBlog).expect(400)
   const response = await api.get("/api/blogs")
-  console.log(response)
+  //4.9: blogilistan testit, step2: tulostuu id kuten tehtävässä on haluttu. (eli ei _id)
+  console.log(response) 
   assert.strictEqual(response.body.length, helper.initialBlogs.length)
 })
 

@@ -11,6 +11,8 @@ const BlogSchema = new mongoose.Schema({
   likes: String
 })
 
+//4.9: blogilistan testit, step2
+//tässä muokataan _id > id "muotoon"
 BlogSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
