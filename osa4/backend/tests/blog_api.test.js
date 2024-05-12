@@ -54,10 +54,27 @@ test("a valid blog added ", async () => {
     .expect(201)
     .expect("Content-Type", /application\/json/)
   const response = await api.get("/api/blogs")
-  console.log(response)
   const title = response.body.map((e) => e.title)
   assert.strictEqual(response.body.length, helper.initialBlogs.length + 1)
   assert(title.includes("BLOG3"))
+})
+
+test("a blog without likes added, default 0 if not given likes ", async () => {
+   const newBlog = {
+     title: "BLOG_emptylikes",
+     author: "AUTH",
+     url: "TestURL",
+     likes: "",
+   }
+   await api
+     .post("/api/blogs")
+     .send(newBlog)
+     .expect(201)
+     .expect("Content-Type", /application\/json/)
+   const response = await api.get("/api/blogs")
+   const title = response.body.map((e) => e.title)
+   assert.strictEqual(response.body.length, helper.initialBlogs.length + 1)
+   assert(title.includes("BLOG_emptylikes", "0"))
 })
 
 test("blog without title not added", async () => {
@@ -69,7 +86,7 @@ test("blog without title not added", async () => {
   await api.post("/api/blogs").send(newBlog).expect(400)
   const response = await api.get("/api/blogs")
   //4.9: blogilistan testit, step2: tulostuu id kuten tehtävässä on haluttu. (eli ei _id)
-  console.log(response) 
+  //console.log(response) 
   assert.strictEqual(response.body.length, helper.initialBlogs.length)
 })
 
