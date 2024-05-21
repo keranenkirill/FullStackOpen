@@ -34,7 +34,7 @@ test('the first blog is "BLOG1"', async () => {
   assert(title.includes("BLOG1"))
 })
 
-test.only('the second blog is "BLOG2", auth is "AUTH2"', async () => {
+test('the second blog is "BLOG2", auth is "AUTH2"', async () => {
   const response = await api.get("/api/blogs")
   const title = response.body.map((e) => e.title)
   assert(title.includes("BLOG2", "AUTH2"))
@@ -104,6 +104,7 @@ test("a specific blog can be viewed", async () => {
   assert.deepStrictEqual(resultBlog.body, blogToView)
 })
 
+//4.13 blogilistan laajennus, step1
 test("a blog can be deleted", async () => {
   const blogsAtStart = await helper.blogsInDb()
   const blogToDelete = blogsAtStart[0]
